@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Relax With Me 💖</title>
+  <style>
+    :root{--accent:#ff6b81;--bg:#0f1724;--card:#111827}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    body{background:linear-gradient(180deg,#071028 0%, #0b1930 100%);color:#e6eef8;display:flex;align-items:center;justify-content:center;padding:24px}
+    .card{max-width:820px;width:100%;background:rgba(255,255,255,0.03);border-radius:16px;padding:28px;box-shadow:0 10px 30px rgba(2,6,23,0.6)}
+    h1{margin:0 0 8px;font-size:28px}
+    p.lead{margin:0 0 18px;color:#cfe6ff}
+    .controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+    button{background:var(--accent);border:none;padding:8px 12px;border-radius:10px;color:white;cursor:pointer}
+    button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+    .quote{margin-top:12px;padding:14px;background:rgba(255,255,255,0.02);border-radius:10px}
+    .small{font-size:13px;color:#a7bed6}
+    footer{margin-top:18px;font-size:13px;color:#9fb6d4}
+    .playlist{margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Hey Rhea ❤️ — Relax With Me</h1>
+    <p class="lead">A tiny corner made just for you. Click the heart to get a surprise message from Hasan.</p>
+
+    <div class="controls">
+      <button id="surprise">💌 Surprise Message</button>
+      <button id="nextQuote" class="secondary">🔁 New Quote</button>
+      <button id="playPause" class="secondary">▶️ Play Relaxing Loop</button>
+      <button id="download" class="secondary">📥 Download Note (Word)</button>
+    </div>
+
+    <div class="quote" id="quoteArea">Press <em>New Quote</em> or <em>Surprise Message</em> — everything here comes from Hasan.</div>
+
+    <div class="small">Study-break timer</div>
+    <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+      <input id="breakMin" type="number" min="1" max="180" value="25" style="width:80px;padding:6px;border-radius:8px;border:none;" />
+      <button id="startTimer">Start Break Timer</button>
+      <div id="timerStatus" class="small">Not running</div>
+    </div>
+
+    <div class="playlist">
+      <div class="small">Relaxing loop (if browser blocks autoplay, press Play):</div>
+      <audio id="relaxAudio" loop preload="auto">
+        <!-- Replace src with a short mp3 the user uploads or a hosted link -->
+        <source src="relax-loop.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+
+    <footer>Made with ❤️ by Hasan — click Surprise for a private message.</footer>
+  </div>
+
+  <script>
+    const quotes = [
+      "You’ve already done the hardest part — showing up.",
+      "One step, one page, one patient at a time.",
+      "I believe in you — you’re stronger than the tired days.",
+      "Breathe. You are exactly where you need to be.",
+      "Even doctors need rest — rest is part of healing."
+    ];
+
+    const surprises = [
+      "I love you. I’m so proud of you. Take a break and have a snack — you deserve it.",
+      "If you need anything, I’ll be there: coffee, notes, or a hug.",
+      "You’re training to save lives. That’s incredible. Don’t forget to smile today.",
+    ];
+
+    const quoteArea = document.getElementById('quoteArea');
+    document.getElementById('nextQuote').addEventListener('click', ()=>{
+      quoteArea.textContent = quotes[Math.floor(Math.random()*quotes.length)];
+    });
+
+    document.getElementById('surprise').addEventListener('click', ()=>{
+      // show a surprise and a tiny confetti using emoji
+      const s = surprises[Math.floor(Math.random()*surprises.length)];
+      quoteArea.innerHTML = s + ' <span style="font-size:18px">✨💖✨</span>';
+    });
+
+    const audio = document.getElementById('relaxAudio');
+    const playBtn = document.getElementById('playPause');
+    let playing = false;
+    playBtn.addEventListener('click', ()=>{
+      if(!playing){
+        audio.play().catch(()=>{});
+        playBtn.textContent = '⏸ Pause';
+        playing = true;
+      } else {
+        audio.pause();
+        playBtn.textContent = '▶️ Play Relaxing Loop';
+        playing = false;
+      }
+    });
+
+    // simple break timer
+    let timerId = null;
+    document.getElementById('startTimer').addEventListener('click', ()=>{
+      const mins = parseInt(document.getElementById('breakMin').value)||25;
+      if(timerId) clearTimeout(timerId);
+      document.getElementById('timerStatus').textContent = `Break started for ${mins} minute(s)`;
+      timerId = setTimeout(()=>{
+        alert('Break finished — hope you feel relaxed ❤️');
+        document.getElementById('timerStatus').textContent = 'Not running';
+      }, mins*60*1000);
+    });
+
+    // Download simple Word (.doc) note
+    document.getElementById('download').addEventListener('click', ()=>{
+      const content = `Dear Rhea,\n\nI love you and I believe in you. Take this short break and remember how proud I am.\n\n— Hasan`;
+      const blob = new Blob([content], {type: 'application/msword'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'note-for-rhea.doc';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
