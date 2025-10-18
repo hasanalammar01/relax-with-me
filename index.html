@@ -25,6 +25,7 @@
   <div class="card">
     <h1>Hey Rhea ❤️ — Relax With Me</h1>
     <p class="lead">A tiny corner made just for you. Click the heart to get a surprise message from Hasan.</p>
+    <p>With every smile from you i come happy</p>
 
     <div class="controls">
       <button id="surprise">💌 Surprise Message</button>
@@ -35,12 +36,20 @@
 
     <div class="quote" id="quoteArea">Press <em>New Quote</em> or <em>Surprise Message</em> — everything here comes from Hasan.</div>
 
-    <div class="small">Study-break timer</div>
+    <!-- <div class="small">Study-break timer</div>
     <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
       <input id="breakMin" type="number" min="1" max="180" value="25" style="width:80px;padding:6px;border-radius:8px;border:none;" />
       <button id="startTimer">Start Break Timer</button>
       <div id="timerStatus" class="small">Not running</div>
-    </div>
+    </div> -->
+
+    <div class="small">Study-break timer</div>
+<div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+  <input id="breakMin" type="number" min="1" max="180" value="25" style="width:80px;padding:6px;border-radius:8px;border:none;" />
+  <button id="startTimer">Start Break Timer</button>
+  <div id="timerStatus" class="small">Not running</div>
+</div>
+
 
     <div class="playlist">
       <div class="small">Relaxing loop (if browser blocks autoplay, press Play):</div>
@@ -51,23 +60,179 @@
       </audio>
     </div>
 
+    <!-- Add this inside the <div class="card">, below the playlist section -->
+
+<div class="small" style="margin-top:20px">Your Personal Reminders</div>
+<div style="display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap">
+  <input id="reminderText" type="text" placeholder="Reminder text" style="flex:1;padding:6px;border-radius:8px;border:none;" />
+  <input id="reminderTime" type="datetime-local" style="padding:6px;border-radius:8px;border:none;" />
+  <button id="addReminder">Add Reminder</button>
+</div>
+<ul id="reminderList" style="margin-top:8px;"></ul>
+
+
     <footer>Made with ❤️ by Hasan — click Surprise for a private message.</footer>
   </div>
 
   <script>
-    const quotes = [
+    /*const quotes = [
       "You’ve already done the hardest part — showing up.",
       "One step, one page, one patient at a time.",
       "I believe in you — you’re stronger than the tired days.",
       "Breathe. You are exactly where you need to be.",
       "Even doctors need rest — rest is part of healing."
-    ];
+    ];*/
+
+    const quotes = [
+  // Your original 5 quotes
+  "You’ve already done the hardest part — showing up.",
+  "One step, one page, one patient at a time.",
+  "I believe in you — you’re stronger than the tired days.",
+  "Breathe. You are exactly where you need to be.",
+  "Even doctors need rest — rest is part of healing.",
+
+  // Love & Affection
+  "I love you more than words can ever say.",
+  "Every moment with you feels like a beautiful dream.",
+  "You make my heart smile in ways I never imagined.",
+  "You are my favorite thought, every single day.",
+  "With you, even ordinary moments feel magical.",
+
+  // Motivation & Encouragement
+  "Believe in yourself as much as I believe in you.",
+  "You are capable of amazing things, never forget that.",
+  "Keep shining, the world needs your light.",
+  "Every small step you take is a step closer to greatness.",
+  "Hard work will pay off, and I’ll be proud of you every step.",
+
+  // Sweet & Cute
+  "You’re my sunshine on a cloudy day.",
+  "Your smile can brighten anyone’s world, especially mine.",
+  "You’re the best part of my every day.",
+  "I love the way you make life more beautiful just by being in it.",
+  "You are a treasure, rare and precious.",
+
+  // Support & Comfort
+  "Even in tough times, remember I’m always by your side.",
+  "You’ve got this, and I’ve got you.",
+  "Your strength inspires me every single day.",
+  "Don’t stress, beautiful things take time—and you’re already amazing.",
+  "No matter what, you are never alone. I’m here.",
+
+  // 50 New Quotes
+  "Small progress is still progress.",
+  "You are stronger than any challenge you face.",
+  "Your dreams are worth every effort.",
+  "Take it one step at a time.",
+  "You are enough, exactly as you are.",
+  "Let your heart guide you.",
+  "Even the stars need darkness to shine.",
+  "Your kindness changes the world.",
+  "Every day is a fresh start.",
+  "You are braver than you think.",
+  "Keep going, your future self will thank you.",
+  "Believe in the beauty of your journey.",
+  "You are loved more than you know.",
+  "Your smile is contagious—share it often.",
+  "Courage is not the absence of fear, but moving forward despite it.",
+  "You make ordinary days extraordinary.",
+  "Every effort you make counts.",
+  "You have the power to make today amazing.",
+  "Even small steps lead to big changes.",
+  "You are a work of art.",
+  "Your determination inspires me.",
+  "Take breaks, recharge, and come back stronger.",
+  "You are a force of nature.",
+  "Your potential is limitless.",
+  "You deserve all the happiness in the world.",
+  "Keep your heart open to joy.",
+  "You make life more beautiful just by being in it.",
+  "Celebrate every victory, no matter how small.",
+  "You are capable of miracles.",
+  "Strength grows in moments of challenge.",
+  "The world is better with you in it.",
+  "Your dreams are valid.",
+  "You are a light in the darkness.",
+  "Every day you grow stronger and wiser.",
+  "Your heart knows the way.",
+  "You are a blessing to those around you.",
+  "Never underestimate your power.",
+  "You are more loved than you realize.",
+  "Keep shining, even on cloudy days.",
+  "Your courage moves mountains.",
+  "Believe in the magic within you.",
+  "Your love is your superpower.",
+  "Take time to enjoy the little things.",
+  "You are a source of inspiration.",
+  "Your patience is a strength.",
+  "Every challenge is a lesson.",
+  "You are destined for greatness.",
+  "Your hope is contagious.",
+  "You make every day brighter.",
+  "Your heart is brave and beautiful.",
+  "You are extraordinary in every way."
+];
+
 
     const surprises = [
-      "I love you. I’m so proud of you. Take a break and have a snack — you deserve it.",
-      "If you need anything, I’ll be there: coffee, notes, or a hug.",
-      "You’re training to save lives. That’s incredible. Don’t forget to smile today.",
-    ];
+  "I love you. I’m so proud of you. Take a break and have a snack — you deserve it.",
+  "If you need anything, I’ll be there: coffee, notes, or a hug.",
+  "You’re training to save lives. That’s incredible. Don’t forget to smile today.",
+
+  // 50 new surprises
+  "Remember to take a deep breath — you’re doing amazing.",
+  "I’m so lucky to have you in my life.",
+  "Your smile makes my day brighter.",
+  "Even the hardest days will pass — you’ve got this.",
+  "Take a little time for yourself today — you deserve it.",
+  "You are my favorite person in the whole world.",
+  "I love the way your mind works — you’re brilliant.",
+  "Don’t forget to drink water and take care of yourself.",
+  "You inspire me every single day.",
+  "I believe in you, always and forever.",
+  "You make life more beautiful just by being in it.",
+  "I’m cheering for you every step of the way.",
+  "Take a moment to enjoy something you love today.",
+  "You are capable of anything you set your mind to.",
+  "Even superheroes need rest — don’t forget yours.",
+  "Your heart is bigger than you realize.",
+  "I’m here for you, no matter what.",
+  "You are a gift to everyone around you.",
+  "Take a pause and just smile — it suits you.",
+  "Your kindness changes the world, one person at a time.",
+  "I love how determined and focused you are.",
+  "Remember, I’m proud of you every single day.",
+  "You deserve happiness, love, and all good things.",
+  "Your courage amazes me.",
+  "Even small wins are worth celebrating.",
+  "I love watching you grow and shine.",
+  "You are braver than you think.",
+  "Take it easy sometimes — balance is everything.",
+  "You make hard work look effortless.",
+  "I appreciate everything you do, always.",
+  "You are my sunshine, even on tough days.",
+  "Don’t forget to laugh and have fun today.",
+  "Your presence makes the world better.",
+  "I admire your strength and resilience.",
+  "Keep going, your efforts are not unnoticed.",
+  "You are beautiful, inside and out.",
+  "I’m always here to support you.",
+  "You make ordinary days extraordinary.",
+  "Take a moment to enjoy how far you’ve come.",
+  "You have a heart of gold.",
+  "Your determination is inspiring.",
+  "I love you more every single day.",
+  "Even little steps lead to big achievements.",
+  "You are a light in the lives of others.",
+  "Remember, it’s okay to rest and recharge.",
+  "Your smile is my favorite thing in the world.",
+  "You make life sweeter just by being you.",
+  "I’m proud of your hard work and dedication.",
+  "You deserve all the love and care in the world.",
+  "Keep shining, the world needs your light.",
+  "I love you endlessly, never forget that."
+];
+
 
     const quoteArea = document.getElementById('quoteArea');
     document.getElementById('nextQuote').addEventListener('click', ()=>{
@@ -96,7 +261,7 @@
     });
 
     // simple break timer
-    let timerId = null;
+    /* let timerId = null;
     document.getElementById('startTimer').addEventListener('click', ()=>{
       const mins = parseInt(document.getElementById('breakMin').value)||25;
       if(timerId) clearTimeout(timerId);
@@ -105,7 +270,39 @@
         alert('Break finished — hope you feel relaxed ❤️');
         document.getElementById('timerStatus').textContent = 'Not running';
       }, mins*60*1000);
-    });
+    }); */
+
+
+    let timerInterval = null;
+
+document.getElementById('startTimer').addEventListener('click', ()=>{
+  const mins = parseInt(document.getElementById('breakMin').value) || 25;
+  if(timerInterval) clearInterval(timerInterval);
+
+  let remainingSeconds = mins * 60;
+  const status = document.getElementById('timerStatus');
+
+  status.textContent = formatTime(remainingSeconds);
+
+  timerInterval = setInterval(()=>{
+    remainingSeconds--;
+    if(remainingSeconds <= 0){
+      clearInterval(timerInterval);
+      status.textContent = 'Break finished! ❤️';
+      alert('Break finished — hope you feel relaxed ❤️');
+    } else {
+      status.textContent = formatTime(remainingSeconds);
+    }
+  }, 1000);
+});
+
+// Helper to format seconds as MM:SS
+function formatTime(sec){
+  const m = Math.floor(sec / 60).toString().padStart(2,'0');
+  const s = (sec % 60).toString().padStart(2,'0');
+  return `${m}:${s}`;
+}
+
 
     // Download simple Word (.doc) note
     document.getElementById('download').addEventListener('click', ()=>{
@@ -117,6 +314,62 @@
       a.click();
       URL.revokeObjectURL(url);
     });
+
+
+
+    // ======== Reminder Feature =========
+const reminderTextInput = document.getElementById('reminderText');
+const reminderTimeInput = document.getElementById('reminderTime');
+const reminderList = document.getElementById('reminderList');
+const addReminderBtn = document.getElementById('addReminder');
+
+// Load reminders from localStorage
+let reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
+
+function renderReminders() {
+  reminderList.innerHTML = '';
+  const now = new Date();
+  reminders.forEach((r, index) => {
+    const li = document.createElement('li');
+    const time = new Date(r.time);
+    li.textContent = `${r.text} — ${time.toLocaleString()}`;
+    
+    // highlight if overdue
+    if(time <= now) li.style.color = '#ff6b81';
+    
+    reminderList.appendChild(li);
+  });
+}
+
+renderReminders();
+
+// Add new reminder
+addReminderBtn.addEventListener('click', ()=>{
+  const text = reminderTextInput.value.trim();
+  const time = new Date(reminderTimeInput.value);
+  if(!text || !time) return alert('Please enter text and time!');
+  
+  reminders.push({text, time: time.toISOString()});
+  localStorage.setItem('reminders', JSON.stringify(reminders));
+  renderReminders();
+  reminderTextInput.value = '';
+  reminderTimeInput.value = '';
+});
+
+// Check reminders every minute and alert if time reached
+setInterval(()=>{
+  const now = new Date();
+  reminders.forEach((r, index)=>{
+    const remTime = new Date(r.time);
+    if(!r.alerted && remTime <= now){
+      alert(`⏰ Reminder: ${r.text}`);
+      r.alerted = true; // mark as alerted
+      localStorage.setItem('reminders', JSON.stringify(reminders));
+      renderReminders();
+    }
+  });
+}, 60000); // check every 60s
+
   </script>
 </body>
 </html>
