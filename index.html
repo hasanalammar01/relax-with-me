@@ -53,6 +53,12 @@
   }
 }
 
+/*body {
+  font-family: "Cairo", "Amiri", sans-serif;
+  direction: auto;
+  text-align: center;
+}*/
+
 .card {
   transition: all 0.3s ease;
 }
@@ -61,8 +67,20 @@ button:hover {
   transition: transform 0.2s ease;
 }
     :root{--accent:#ff6b81;--bg:#0f1724;--card:#111827}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
-    body{background:linear-gradient(180deg,#071028 0%, #0b1930 100%);color:#e6eef8;display:flex;align-items:center;justify-content:center;padding:24px}
+    html,body{
+      height:100%;
+      margin:0;
+      font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;
+    
+    }
+    body{
+      background:linear-gradient(180deg,#071028 0%, #0b1930 100%);
+      color:#e6eef8;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px ;
+    }
     .card{max-width:820px;width:100%;background:rgba(255,255,255,0.03);border-radius:16px;padding:28px;box-shadow:0 10px 30px rgba(2,6,23,0.6)}
     h1{margin:0 0 8px;font-size:28px}
     p.lead{margin:0 0 18px;color:#cfe6ff}
@@ -97,11 +115,14 @@ button:hover {
     </div> -->
 
     <div class="small">Study-break timer</div>
-<div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;align-items:center">
   <input id="breakMin" type="number" min="1" max="180" value="25" style="width:80px;padding:6px;border-radius:8px;border:none;" />
-  <button id="startTimer">Start Break Timer</button>
+  <button id="startTimer">Start</button>
+  <button id="pauseTimer" class="secondary" disabled>Pause</button>
+  <button id="resumeTimer" class="secondary" disabled>Resume</button>
   <div id="timerStatus" class="small">Not running</div>
 </div>
+
 
 
     <div class="playlist">
@@ -114,14 +135,14 @@ button:hover {
     </div>
 
     <!-- Add this inside the <div class="card">, below the playlist section -->
-
-<div class="small" style="margin-top:20px">Your Personal Reminders</div>
-<div style="display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap">
-  <input id="reminderText" type="text" placeholder="Reminder text" style="flex:1;padding:6px;border-radius:8px;border:none;" />
-  <input id="reminderTime" type="datetime-local" style="padding:6px;border-radius:8px;border:none;" />
-  <button id="addReminder">Add Reminder</button>
-</div>
-<ul id="reminderList" style="margin-top:8px;"></ul>
+<!-- 
+  <div class="small" style="margin-top:20px">Your Personal Reminders</div>
+  <div style="display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap">
+    <input id="reminderText" type="text" placeholder="Reminder text" style="flex:1;padding:6px;border-radius:8px;border:none;" />
+    <input id="reminderTime" type="datetime-local" style="padding:6px;border-radius:8px;border:none;" />
+    <button id="addReminder">Add Reminder</button>
+  </div>
+  <ul id="reminderList" style="margin-top:8px;"></ul> -->
 
 
     <footer>Made with ❤️ by Hasan — click Surprise for a private message.</footer>
@@ -136,7 +157,7 @@ button:hover {
       "Even doctors need rest — rest is part of healing."
     ];*/
 
-    const quotes = [
+    const englishQuotes = [
   // Your original 5 quotes
   "You’ve already done the hardest part — showing up.",
   "One step, one page, one patient at a time.",
@@ -226,8 +247,53 @@ button:hover {
   "You are extraordinary in every way."
 ];
 
+    const arabicQuotes = [
+    // Arabic quotes 🌹
+  "تعبُ الأيامِ يمضي، ويبقى المجدُ لمن صبر.",
+  "هيَ ليستْ كالأخريات، فيها طمأنينةُ الكونِ وسكينةُ القلبِ معًا.",
+  "وإنّي لأهوى النومَ في غيرِ حينهِ، لعلَّ لقاءً في المنامِ يكونُ.",
+  "ارفعي رأسكِ يا فتاةَ العزم، فالنورُ يولدُ من رحمِ التعب.",
+  "يا من سكبتِ النورَ في أيامي، ما عدتُ أرى في الليلِ ظلامي.",
+  "دعِي الهمومَ تمضي، فلكلِّ ليلٍ فجرٌ جديد.",
+  "وفي الطريقِ تعبٌ جميل، إذا كانَ غايتهُ حلماً كبيراً.",
+  "ستُشرقينَ يوماً، كما تشرقُ الشمسُ بعدَ ليلٍ طويل.",
+  "وفي القلبِ وردٌ لا يذبل، ما دامَ في الحياةِ أمل.",
+  "ما ضاقَ يومٌ إلا وتلاهُ فرح، فثقي بربٍّ لا يُخيّبُ رجاءَ عبدٍ دعا.",
+  "سكونُ القلبِ عندَ رؤاكِ، هو أصدقُ من كلِّ الكلام.",
+  "وما الحبُّ إلا أن ترى من تُحبُّ، سعيدًا ولو كنتَ في الحزنِ وحدك.",
+  "تغيبينَ عن عيني ولكن في الفؤادِ سكنٌ، فكيفَ أغيبُ عنكِ؟",
+  "أنا مؤمنٌ بكِ، وبأنكِ ستصلينَ يومًا إلى كلِّ ما تتمنينَ 🌸",
+  "لن يطول التعب، فالله لا يُضيعُ تعبَ من نوى خيرًا وسعى إليه 💫",
+  "في كلِّ مرةٍ تظنينَ أنكِ ضعفتِ، تذكّري كم مرةٍ نهضتِ من جديد.",
+  "ابتسامتكِ تُشبه الفجر، تُعلن بدايةَ يومٍ جميل 💖",
+  "لكِ في القلبِ دعاءٌ، كأنه نجمٌ لا ينطفئُ في ليلِ السماء.",
+  "ما أجملَ أن تزرعي أملاً في قلبكِ كلّ صباح، وتروي أحلامكِ بالصبر 🌷",
+  "كوني كما عهدتُكِ، شُجاعةً، مُبتسمةً، لا يكسركِ شيء 🌸",
+    "كلُّ يومٍ جديدٍ فرصةٌ لتصنعي من حياتكِ لوحةً رائعةً 🌺",
+  "في صمتكِ سحرٌ، وفي ابتسامتكِ ضوءٌ يُنير القلوب 💖",
+  "تذكري أنّ القوة ليست في عدم السقوط، بل في النهوض بعد كلِّ مرة 🌸",
+  "قلوبنا تزهرُ حين نحبّ، فاستمري في زرع الحبّ والأمل 🌷",
+  "لا تستعجلي النتائج، فالصبر مفتاح كلِّ فرحة 🌟",
+  "أحلامكِ تستحق أن تُحارب من أجلها، فلا تيأسي 💫",
+  "كل لحظة تمرُّ هي صفحة جديدة في كتاب حياتكِ 📖",
+  "كوني أنتِ، بكلِّ فخر، وبكلِّ جمال داخلي 🌹",
+  "في حضوركِ تتحوّل الأيام العادية إلى ذكريات لا تُنسى 💕",
+  "دعِي قلبكِ يقودكِ، فهو أصدق مرشدٍ إلى سعادتكِ 🌼",
+  "كلُّ تعبٍ يمرُّ يُثمر نجاحًا لا يُقدّر بثمن 💫",
+  "ابتسامتكِ هي البلسم لكلّ قلبٍ متعب 🌸",
+  "لا تخافي من الظلام، فالنور يكمن بداخلكِ دائمًا 🌟",
+  "أنتِ أجمل حين تؤمنين بنفسكِ قبل أي شيء 💖",
+  "الحياة قصيرة، فارسمي فيها أجمل ابتسامة 🌷",
+  "في كلّ سقوط درس، وفي كلّ نهوض إنجاز 🌹",
+  "كوني النور الذي يضيء طريقكِ وطرق الآخرين 🌼",
+  "العطاء من قلبكِ يجعل الحياة أكثر دفئًا وجمالًا 💕",
+  "الأمل زهرة لا تموت، فقط ازرعيها في قلبكِ كل يوم 🌸",
+  "ابتسمي للحياة، فهي لا تعطي إلا لمن يبتسم لها 🌟"
+    ];
+
 
     const surprises = [
+    " أنا مؤمن فيكِ، وناطر اليوم يلي تفرحي في بإنجازك",
   "I love you. I’m so proud of you. Take a break and have a snack — you deserve it.",
   "If you need anything, I’ll be there: coffee, notes, or a hug.",
   "You’re training to save lives. That’s incredible. Don’t forget to smile today.",
@@ -287,10 +353,38 @@ button:hover {
 ];
 
 
-    const quoteArea = document.getElementById('quoteArea');
-    document.getElementById('nextQuote').addEventListener('click', ()=>{
+     const quoteArea = document.getElementById('quoteArea');
+    /*document.getElementById('nextQuote').addEventListener('click', ()=>{
       quoteArea.textContent = quotes[Math.floor(Math.random()*quotes.length)];
-    });
+    }); */
+
+   /* document.getElementById('nextQuote').addEventListener('click', () => {
+  const index = Math.floor(Math.random() * Math.min(englishQuotes.length, arabicQuotes.length));
+  const english = englishQuotes[index];
+  const arabic = arabicQuotes[index];
+
+  quoteArea.innerHTML = `
+    <div style="margin-bottom:10px;font-size:1.2em;">${english}</div>
+    <div style="font-size:1.3em;direction:rtl;font-family:'Amiri','Cairo',serif;">${arabic}</div>
+  `;
+});*/
+
+   /* quoteArea.textContent = quotes[Math.floor(Math.random()*quotes.length)];*/
+
+
+   let showEnglish = true; // this flag will alternate between English and Arabic
+
+document.getElementById('nextQuote').addEventListener('click', () => {
+  if (showEnglish) {
+    const randomIndex = Math.floor(Math.random() * englishQuotes.length);
+    quoteArea.innerHTML = `<div style="font-size:1.2em;">${englishQuotes[randomIndex]}</div>`;
+  } else {
+    const randomIndex = Math.floor(Math.random() * arabicQuotes.length);
+    quoteArea.innerHTML = `<div style="font-size:1.3em;direction:rtl;font-family:'Amiri','Cairo',serif;">${arabicQuotes[randomIndex]}</div>`;
+  }
+  showEnglish = !showEnglish; // flip between English and Arabic next time
+});
+
 
     document.getElementById('surprise').addEventListener('click', ()=>{
       // show a surprise and a tiny confetti using emoji
@@ -327,32 +421,63 @@ button:hover {
 
 
     let timerInterval = null;
+let remainingSeconds = 0;
+let isPaused = false;
 
-document.getElementById('startTimer').addEventListener('click', ()=>{
+const startBtn = document.getElementById('startTimer');
+const pauseBtn = document.getElementById('pauseTimer');
+const resumeBtn = document.getElementById('resumeTimer');
+const status = document.getElementById('timerStatus');
+
+startBtn.addEventListener('click', () => {
   const mins = parseInt(document.getElementById('breakMin').value) || 25;
-  if(timerInterval) clearInterval(timerInterval);
+  remainingSeconds = mins * 60;
+  isPaused = false;
 
-  let remainingSeconds = mins * 60;
-  const status = document.getElementById('timerStatus');
+  clearInterval(timerInterval);
+  updateDisplay();
 
-  status.textContent = formatTime(remainingSeconds);
+  pauseBtn.disabled = false;
+  resumeBtn.disabled = true;
 
-  timerInterval = setInterval(()=>{
-    remainingSeconds--;
-    if(remainingSeconds <= 0){
-      clearInterval(timerInterval);
-      status.textContent = 'Break finished! ❤️';
-      alert('Break finished — hope you feel relaxed ❤️');
-    } else {
-      status.textContent = formatTime(remainingSeconds);
+  timerInterval = setInterval(() => {
+    if (!isPaused) {
+      remainingSeconds--;
+      if (remainingSeconds <= 0) {
+        clearInterval(timerInterval);
+        status.textContent = 'Break finished! ❤️';
+        pauseBtn.disabled = true;
+        resumeBtn.disabled = true;
+        alert('Break finished — hope you feel relaxed ❤️');
+      } else {
+        updateDisplay();
+      }
     }
   }, 1000);
+
+  status.textContent = formatTime(remainingSeconds);
 });
 
-// Helper to format seconds as MM:SS
-function formatTime(sec){
-  const m = Math.floor(sec / 60).toString().padStart(2,'0');
-  const s = (sec % 60).toString().padStart(2,'0');
+pauseBtn.addEventListener('click', () => {
+  isPaused = true;
+  pauseBtn.disabled = true;
+  resumeBtn.disabled = false;
+  status.textContent = `Paused at ${formatTime(remainingSeconds)} ⏸`;
+});
+
+resumeBtn.addEventListener('click', () => {
+  isPaused = false;
+  pauseBtn.disabled = false;
+  resumeBtn.disabled = true;
+});
+
+function updateDisplay() {
+  status.textContent = formatTime(remainingSeconds);
+}
+
+function formatTime(sec) {
+  const m = Math.floor(sec / 60).toString().padStart(2, '0');
+  const s = (sec % 60).toString().padStart(2, '0');
   return `${m}:${s}`;
 }
 
@@ -367,6 +492,9 @@ function formatTime(sec){
       a.click();
       URL.revokeObjectURL(url);
     });
+
+
+
 
 
 
